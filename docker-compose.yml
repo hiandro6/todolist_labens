@@ -1,0 +1,16 @@
+version: "3.8" #versão da sintaxe do docker compose
+
+services: #onde definimos os containers/serviços
+  web: #nome do serviço no docker compose
+    build: . #usa o dockerfile da pasta atual
+    container_name: todolist-api
+
+    ports:
+      - "8000:8000" #mapeia HOST:CONTAINER
+
+    volumes: #PASTA_LOCAL : PASTA_NO_CONTAINER ativando o hot reload
+      - .:/app 
+
+    command: > #sobrescreve o cmd do dockerfile
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
